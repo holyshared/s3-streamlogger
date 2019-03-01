@@ -101,7 +101,7 @@ S3StreamLogger.prototype._upload = function(forceNewFile, cb) {
     if(forceNewFile ||
        elapsed > this.rotate_every ||
        this._fileSize() > this.max_file_size){
-        saved.buffers = this.buffers;
+        saved.buffers = this.buffers.splice(0);
         this._newFile();
     }
 
@@ -166,7 +166,6 @@ S3StreamLogger.prototype._fileSize = function(){
 // _newFile should ONLY be called when there is no un-uploaded data (i.e.
 // from _upload or initialization), otherwise data will be lost.
 S3StreamLogger.prototype._newFile = function(){
-    this.buffers      = [];
     this.file_started = new Date();
     this.last_write   = this.file_started;
     // create a date object with the UTC version of the date to use with

@@ -67,7 +67,7 @@ function S3StreamLogger(options){
     this.last_write   = null;
     this.buffers      = [];
     this.unwritten    = 0;
-
+    this.on('end', this.flushFile.bind(this));
     this._newFile();
 }
 util.inherits(S3StreamLogger, stream.Writable);
